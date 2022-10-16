@@ -37,7 +37,7 @@ public class Tags {
 	public static String FILE_REQ_NOACK_TAG = "<FILE_REQ_NOACK />";// 26
 	public static String FILE_REQ_ACK_OPEN_TAG = "<FILE_REQ_ACK>";// 27
 	public static String FILE_REQ_ACK_CLOSE_TAG = "</FILE_REQ_ACK>";// 28
-	public static String FILE_DATA_BEGIN_TAG = "<FILE_DATA_BEGIN />";// 29
+	public static String FILE_DATA_BEGIN_TAG = "aW";// 29
 	public static String FILE_DATA_OPEN_TAG = "<FILE_DATA>";// 30
 	public static String FILE_DATA_CLOSE_TAG = "</FILE_DATA>";// 31
 	public static String FILE_DATA_END_TAG = "<FILE_DATA_END />";// 32

@@ -1,0 +1,328 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package client;
+
+import java.awt.event.MouseEvent;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.net.Inet4Address;
+import java.net.UnknownHostException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import tags.Tags;
+
+/**
+ *
+ * @author boixi
+ */
+public class MainJFrame extends JFrame implements WindowListener{
+
+    /**
+     * Creates new form MainJFrame
+     */
+    private Client clientNode;
+    private static String IPClient = "", nameUser = "", dataUser = "";
+    private static int portClient = 0;
+    private static int portServer;
+    private String name;
+    static DefaultListModel<String> model = new DefaultListModel<>();
+    String file = System.getProperty("user.dir") + "\\Server.txt";
+    
+    public MainJFrame(String ipClient, int clientPort, String name, String msg, int serverPort) {
+        IPClient = ipClient;
+        portClient = clientPort;
+	nameUser = name;
+	dataUser = msg;
+	portServer = serverPort;
+	System.out.println("Port Server Main UI: " + portServer);
+        
+        java.awt.EventQueue.invokeLater(() -> {
+            try {
+                new MainJFrame().setVisible(true);
+            } catch (Exception ex) {
+                Logger.getLogger(MainJFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+    }
+    
+    public MainJFrame() throws Exception {
+        initComponents();
+        setSize(900, 700);
+        setLocationRelativeTo(this);
+        //GroupLayout layout = new GroupLayout(getContentPane());
+        //getContentPane().setLayout(layout);
+        System.out.println("Port Server Main UI: " + portServer);
+	updateFriendMainFrame("12");
+	clientNode = new Client(IPClient, portClient, nameUser, dataUser, portServer);
+        jListActive.setModel(model);
+        jLabel2.setText("Welcome, " + nameUser);
+        jtxtServerPort.setText(String.valueOf(portServer));
+        jtxtClientPort.setText(String.valueOf(portClient));
+        
+        
+        try {
+            jtxtIP.setText(Inet4Address.getLocalHost().getHostAddress());
+	} catch (UnknownHostException e) {
+            e.printStackTrace();
+	}
+        
+    }
+    
+    public static void updateFriendMainFrame(String msg) {
+	model.addElement(msg);
+    }
+
+    public static void resetList() {
+	model.clear();
+    }
+
+    void SaveServer() {
+	try {
+//			PrintWriter printWriter = new PrintWriter(new File(file));
+//			StringBuilder stringBuilder = new StringBuilder();
+//			stringBuilder.append(IPClient + " " + portServer);
+//			printWriter.append(stringBuilder.toString());
+//			printWriter.close();
+            FileWriter fw = new FileWriter(file, true);
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(IPClient + " " + portServer);
+            bw.newLine();
+            bw.close();
+
+            JOptionPane.showMessageDialog(this, "Server đã được lưu lại.");
+            //btnSaveServer.setVisible(false);
+        } catch (Exception e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
+    }
+    
+    private void connectChat() {
+	// TODO Auto-generated method stub
+	int n = JOptionPane.showConfirmDialog(this, "Bạn có muốn kết nối với người này không?", "Kết nối", JOptionPane.YES_NO_OPTION);
+	if (n == 0) {
+            System.out.println(name);
+            if (name.equals("") || Client.clientarray == null) {
+		Tags.show(this, "Invaild username", false);
+		return;
+            }
+            if (name.equals(nameUser)) {
+                Tags.show(this, "This software doesn't support chat yourself function", false);
+                return;
+            }
+            int size = Client.clientarray.size();
+            for (int i = 0; i < size; i++) {
+                if (name.equals(Client.clientarray.get(i).getName())) {
+                    try {
+                        clientNode.intialNewChat(Client.clientarray.get(i).getHost(),Client.clientarray.get(i).getPort(), name);
+                        return;
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            }
+            Tags.show(this, "Friend is not found. Please wait to update your list friend", false);
+        }
+    }
+    
+    public static int request(String msg, boolean type) {
+	JFrame frameMessage = new JFrame();
+	return Tags.show(frameMessage, msg, type);
+    }
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jPanelxx = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jListActive = new javax.swing.JList<>();
+        jLabel2 = new javax.swing.JLabel();
+        jtxtIP = new javax.swing.JTextField();
+        jtxtClientPort = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jtxtServerPort = new javax.swing.JTextField();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Main");
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
+        jLabel1.setText("Home");
+
+        jListActive.setBorder(javax.swing.BorderFactory.createTitledBorder("List active users"));
+        jListActive.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jListActiveMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(jListActive);
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel2.setText("Welcome, ");
+
+        jtxtIP.setEditable(false);
+        jtxtIP.setText("127.0.0.1");
+
+        jtxtClientPort.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtxtClientPortActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setText("IP Address");
+
+        jLabel4.setText("Client Port");
+
+        jLabel5.setText("Server Port");
+
+        jtxtServerPort.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtxtServerPortActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanelxxLayout = new javax.swing.GroupLayout(jPanelxx);
+        jPanelxx.setLayout(jPanelxxLayout);
+        jPanelxxLayout.setHorizontalGroup(
+            jPanelxxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelxxLayout.createSequentialGroup()
+                .addGroup(jPanelxxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelxxLayout.createSequentialGroup()
+                        .addGap(94, 94, 94)
+                        .addComponent(jLabel2))
+                    .addGroup(jPanelxxLayout.createSequentialGroup()
+                        .addGap(85, 85, 85)
+                        .addGroup(jPanelxxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanelxxLayout.createSequentialGroup()
+                                .addGroup(jPanelxxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanelxxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jtxtIP)
+                                    .addComponent(jtxtClientPort, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(131, 131, 131)
+                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jtxtServerPort))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 701, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(113, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelxxLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(408, 408, 408))
+        );
+        jPanelxxLayout.setVerticalGroup(
+            jPanelxxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelxxLayout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addComponent(jLabel1)
+                .addGap(31, 31, 31)
+                .addComponent(jLabel2)
+                .addGap(58, 58, 58)
+                .addGroup(jPanelxxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jtxtIP, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jtxtServerPort, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(64, 64, 64)
+                .addGroup(jPanelxxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jtxtClientPort, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(35, 35, 35))
+        );
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanelxx, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanelxx, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void jtxtClientPortActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtClientPortActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtxtClientPortActionPerformed
+
+    private void jtxtServerPortActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtServerPortActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtxtServerPortActionPerformed
+
+    private void jListActiveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jListActiveMouseClicked
+        // TODO add your handling code here:
+        name = jListActive.getModel().getElementAt(jListActive.getSelectedIndex());
+        connectChat();
+	
+    }//GEN-LAST:event_jListActiveMouseClicked
+    
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JList<String> jListActive;
+    private javax.swing.JPanel jPanelxx;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextField jtxtClientPort;
+    private javax.swing.JTextField jtxtIP;
+    private javax.swing.JTextField jtxtServerPort;
+    // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void windowOpened(WindowEvent we) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void windowClosing(WindowEvent we) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void windowClosed(WindowEvent we) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void windowIconified(WindowEvent we) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void windowDeiconified(WindowEvent we) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void windowActivated(WindowEvent we) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void windowDeactivated(WindowEvent we) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+}

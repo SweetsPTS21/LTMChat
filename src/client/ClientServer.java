@@ -57,7 +57,7 @@ public class ClientServer {
 
 					} else if (res == 0) {
 						send.writeObject(Tags.CHAT_ACCEPT_TAG);
-						new ChatFrame(username, name, connection, port);
+						new ChatFrame2(username, name, connection, port);
 					}
 					send.flush();
 				} catch (Exception e) {

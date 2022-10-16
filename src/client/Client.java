@@ -97,12 +97,12 @@ public class Client {
 		ObjectInputStream receivedChat = new ObjectInputStream(connclient.getInputStream());
 		String msg = (String) receivedChat.readObject();
 		if (msg.equals(Tags.CHAT_DENY_TAG)) {
-			MainFrame.request("Your friend denied connect with you!", false);
+			MainJFrame.request("Your friend denied connect with you!", false);
 			connclient.close();
 			return;
 		}
 		// not if
-		new ChatFrame(nameUser, guest, connclient, portClient);
+		new ChatFrame2(nameUser, guest, connclient, portClient);
 
 	}
 
@@ -121,12 +121,12 @@ public class Client {
 
 	public void updateFriend() {
 		int size = clientarray.size();
-		MainFrame.resetList();
+		MainJFrame.resetList();
 		// while loop
 		int i = 0;
 		while (i < size) {
 			if (!clientarray.get(i).getName().equals(nameUser))
-				MainFrame.updateFriendMainFrame(clientarray.get(i).getName());
+				MainJFrame.updateFriendMainFrame(clientarray.get(i).getName());
 			i++;
 		}
 	}

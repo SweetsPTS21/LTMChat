@@ -27,7 +27,7 @@ public class ServerCore {
 	// Intial server socket
 	public ServerCore(int port) throws Exception {
 		server = new ServerSocket(port);
-		dataPeer = new ArrayList<Peer>();
+		dataPeer = new ArrayList<>();
 		portServer = port;
 		(new WaitForConnect()).start();
 	}
@@ -70,7 +70,7 @@ public class ServerCore {
 		if (getData != null) {
 			if (!isExsistName(getData.get(0))) {
 				saveNewPeer(getData.get(0), connection.getInetAddress().toString(), Integer.parseInt(getData.get(1)));
-				ServerFrame.updateNumberClient();
+				ServerJFrame.updateNumberClient();
 			} else
 				return false;
 		} else {
@@ -79,7 +79,7 @@ public class ServerCore {
 			Decode.updatePeerOnline(dataPeer, msg);
 			if (size != dataPeer.size()) {
 				isExit = true;
-				ServerFrame.decreaseNumberClient();
+				ServerJFrame.decreaseNumberClient();
 			}
 		}
 		return true;
