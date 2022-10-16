@@ -26,26 +26,26 @@ import tags.Decode;
 import tags.Encode;
 import tags.Tags;
 
-public class ChatFrame2 extends javax.swing.JFrame {
+public class ChatJFrame extends javax.swing.JFrame {
     // Socket
     private static String URL_DIR = System.getProperty("user.dir");
     private Socket socketChat;
     private String nameUser = "", nameGuest = "", nameFile = "";
     public boolean isStop = false, isSendFile = false, isReceiveFile = false;
-    private ChatFrame2.ChatRoom chat;
+    private ChatJFrame.ChatRoom chat;
     private int portServer = 0;
     private static final long serialVersionUID = 1L;
-    private ChatFrame2 frame = this;
+    private ChatJFrame frame = this;
         
-    public ChatFrame2(String user, String guest, Socket socket, int port) throws Exception {
+    public ChatJFrame(String user, String guest, Socket socket, int port) throws Exception {
         nameUser = user;
         nameGuest = guest;
         socketChat = socket;
-        frame = new ChatFrame2(user, guest, socket, port, port);
+        frame = new ChatJFrame(user, guest, socket, port, port);
         frame.setVisible(true);
     }
     
-    public ChatFrame2(String user, String guest, Socket socket, int port, int a) throws Exception {
+    public ChatJFrame(String user, String guest, Socket socket, int port, int a) throws Exception {
         // TODO Auto-generated constructor stub
 	initComponents();
         setSize(600, 600);
@@ -58,7 +58,7 @@ public class ChatFrame2 extends javax.swing.JFrame {
         System.out.println("Guest: " + guest);
         System.out.println("Port: " + port);
         System.out.println("Socket: " + socket);
-        chat = new ChatFrame2.ChatRoom(socketChat, nameUser, nameGuest);
+        chat = new ChatJFrame.ChatRoom(socketChat, nameUser, nameGuest);
         
         lblGuestName.setText(nameGuest);
         chat.start();	

@@ -50,14 +50,14 @@ public class ClientServer {
 					getRequest = new ObjectInputStream(connection.getInputStream());
 					String msg = (String) getRequest.readObject();
 					String name = Decode.getNameRequestChat(msg);
-					int res = MainFrame.request("Account: " + name + " want to connect with you !", true);
+					int res = MainJFrame.request("Account: " + name + " want to connect with you !", true);
 					ObjectOutputStream send = new ObjectOutputStream(connection.getOutputStream());
 					if (res == 1) {
 						send.writeObject(Tags.CHAT_DENY_TAG);
 
 					} else if (res == 0) {
 						send.writeObject(Tags.CHAT_ACCEPT_TAG);
-						new ChatFrame2(username, name, connection, port);
+						new ChatJFrame(username, name, connection, port);
 					}
 					send.flush();
 				} catch (Exception e) {

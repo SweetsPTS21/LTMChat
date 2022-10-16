@@ -102,7 +102,7 @@ public class Client {
 			return;
 		}
 		// not if
-		new ChatFrame2(nameUser, guest, connclient, portClient);
+		new ChatJFrame(nameUser, guest, connclient, portClient);
 
 	}
 
