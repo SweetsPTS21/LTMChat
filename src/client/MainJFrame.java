@@ -5,11 +5,13 @@
  */
 package client;
 
+import java.awt.HeadlessException;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.net.Inet4Address;
 import java.net.UnknownHostException;
 import java.util.logging.Level;
@@ -86,11 +88,6 @@ public class MainJFrame extends JFrame implements WindowListener{
 
     void SaveServer() {
 	try {
-//			PrintWriter printWriter = new PrintWriter(new File(file));
-//			StringBuilder stringBuilder = new StringBuilder();
-//			stringBuilder.append(IPClient + " " + portServer);
-//			printWriter.append(stringBuilder.toString());
-//			printWriter.close();
             FileWriter fw = new FileWriter(file, true);
             BufferedWriter bw = new BufferedWriter(fw);
             bw.write(IPClient + " " + portServer);
@@ -98,10 +95,10 @@ public class MainJFrame extends JFrame implements WindowListener{
             bw.close();
 
             JOptionPane.showMessageDialog(this, "Server đã được lưu lại.");
-            //btnSaveServer.setVisible(false);
-        } catch (Exception e1) {
+            btnSaveServer.setVisible(false);
+        } catch (HeadlessException | IOException e) {
             // TODO Auto-generated catch block
-            e1.printStackTrace();
+            System.err.println(e);
         }
     }
     
@@ -157,6 +154,7 @@ public class MainJFrame extends JFrame implements WindowListener{
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jtxtServerPort = new javax.swing.JTextField();
+        btnSaveServer = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Main");
@@ -164,7 +162,8 @@ public class MainJFrame extends JFrame implements WindowListener{
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
         jLabel1.setText("Home");
 
-        jListActive.setBorder(javax.swing.BorderFactory.createTitledBorder("List active users"));
+        jListActive.setBorder(javax.swing.BorderFactory.createTitledBorder("Online users"));
+        jListActive.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jListActive.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jListActiveMouseClicked(evt);
@@ -176,23 +175,38 @@ public class MainJFrame extends JFrame implements WindowListener{
         jLabel2.setText("Welcome, ");
 
         jtxtIP.setEditable(false);
+        jtxtIP.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jtxtIP.setText("127.0.0.1");
 
+        jtxtClientPort.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jtxtClientPort.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jtxtClientPortActionPerformed(evt);
             }
         });
 
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel3.setText("IP Address");
 
+        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel4.setText("Client Port");
 
+        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel5.setText("Server Port");
 
+        jtxtServerPort.setEditable(false);
+        jtxtServerPort.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jtxtServerPort.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jtxtServerPortActionPerformed(evt);
+            }
+        });
+
+        btnSaveServer.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnSaveServer.setText("Save Server");
+        btnSaveServer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveServerActionPerformed(evt);
             }
         });
 
@@ -200,14 +214,19 @@ public class MainJFrame extends JFrame implements WindowListener{
         jPanelxx.setLayout(jPanelxxLayout);
         jPanelxxLayout.setHorizontalGroup(
             jPanelxxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelxxLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(408, 408, 408))
             .addGroup(jPanelxxLayout.createSequentialGroup()
+                .addGap(85, 85, 85)
                 .addGroup(jPanelxxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelxxLayout.createSequentialGroup()
-                        .addGap(94, 94, 94)
-                        .addComponent(jLabel2))
+                        .addComponent(jLabel2)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanelxxLayout.createSequentialGroup()
-                        .addGap(85, 85, 85)
-                        .addGroup(jPanelxxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanelxxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 701, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanelxxLayout.createSequentialGroup()
                                 .addGroup(jPanelxxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -219,13 +238,13 @@ public class MainJFrame extends JFrame implements WindowListener{
                                 .addGap(131, 131, 131)
                                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(jtxtServerPort))
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 701, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(113, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelxxLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(408, 408, 408))
+                                .addGroup(jPanelxxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jtxtServerPort)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelxxLayout.createSequentialGroup()
+                                        .addGap(0, 0, Short.MAX_VALUE)
+                                        .addComponent(btnSaveServer, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(45, 45, 45)))))
+                        .addContainerGap(113, Short.MAX_VALUE))))
         );
         jPanelxxLayout.setVerticalGroup(
             jPanelxxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -243,7 +262,8 @@ public class MainJFrame extends JFrame implements WindowListener{
                 .addGap(64, 64, 64)
                 .addGroup(jPanelxxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jtxtClientPort, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSaveServer, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(35, 35, 35))
@@ -275,9 +295,15 @@ public class MainJFrame extends JFrame implements WindowListener{
         connectChat();
 	
     }//GEN-LAST:event_jListActiveMouseClicked
+
+    private void btnSaveServerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveServerActionPerformed
+        // TODO add your handling code here:
+        SaveServer();
+    }//GEN-LAST:event_btnSaveServerActionPerformed
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnSaveServer;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

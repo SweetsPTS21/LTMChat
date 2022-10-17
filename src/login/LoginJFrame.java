@@ -6,9 +6,10 @@
 package login;
 
 import client.MainJFrame;
-import java.awt.EventQueue;
+import java.awt.HeadlessException;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Inet4Address;
@@ -19,15 +20,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.regex.Pattern;
-import javax.swing.GroupLayout;
-import javax.swing.JButton;
+import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
 import tags.Encode;
 import tags.Tags;
 
@@ -35,19 +31,20 @@ import tags.Tags;
  *
  * @author boixi
  */
-public class LoginJFrame extends javax.swing.JFrame {
+public final class LoginJFrame extends javax.swing.JFrame {
     /**
      * Creates new form LoginJFrame
      */
-    private static String NAME_FAILED = "THIS NAME CONTAINS INVALID CHARACTER. PLEASE TRY AGAIN";
-    private static String NAME_EXSIST = "THIS NAME IS ALREADY USED. PLEASE TRY AGAIN";
-    private static String SERVER_NOT_START = "TURN ON SERVER BEFORE START";
+    private static String NAME_FAILED = "TÊN BAO GỒM KÝ TỰ KHÔNG HỢP LỆ, VUI LÒNG THỬ LẠI" + "\nHint: Tên chỉ bao gồm các chữ cái và số";
+        private static String NAME_EXSIST = "TÊN ĐÃ ĐƯỢC SỬ DỤNG";
+    private static String SERVER_NOT_START = "MÁY CHỦ CHƯA KHỞI ĐỘNG HOẶC KHÔNG TỒN TẠI";
     
     private Pattern checkName = Pattern.compile("[_a-zA-Z][_a-zA-Z0-9]*");
     int port;
     String IP, userName;
     String file = System.getProperty("user.dir") + "\\Server.txt";
     List<String> listServer = new ArrayList<>();
+    static DefaultListModel<String> model = new DefaultListModel<>();
 
     void updateServer(String IP, String port) {
         jtxtIP.setText(IP);
@@ -72,29 +69,18 @@ public class LoginJFrame extends javax.swing.JFrame {
         String[] data = null;
 	try {
             data = readFileServer();
-        } catch (FileNotFoundException e1) {
+            if(data != null) {
+                listServer.forEach((i) -> {
+                    model.addElement(i);
+                });
+            }
+            else {
+                jListSavedServer.setVisible(false);
+            }
+        } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
-            e1.printStackTrace();
+            System.err.println(e);
         }
-        
-        if(data != null) {
-            jListSavedServer = new JList(data);
-        }
-//        if (data == null) {
-//            comboBox.setVisible(false);
-//        } else {
-//			comboBox.setModel(new DefaultComboBoxModel(data));
-//			// Handle event
-//			comboBox.addActionListener(new ActionListener() {
-//				@Override
-//				public void actionPerformed(ActionEvent e) {
-//					JComboBox cb = (JComboBox) e.getSource();
-//					String ss = (String) cb.getSelectedItem();
-//					String[] s = ss.split(" ");
-//					updateServer(s[0], s[1]);
-//				}
-//			});
-//		}
     }
     public LoginJFrame() {
         initComponents();
@@ -105,9 +91,11 @@ public class LoginJFrame extends javax.swing.JFrame {
         try {
             jtxtIP.setText(Inet4Address.getLocalHost().getHostAddress());
 	} catch (UnknownHostException e) {
-            e.printStackTrace();
+            System.err.println(e);
 	}
         jtxtPort.setText("8080");
+        jListSavedServer.setModel(model);
+        readServerData();
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -135,10 +123,12 @@ public class LoginJFrame extends javax.swing.JFrame {
         setTitle("Login");
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
-        jLabel1.setText("Login");
+        jLabel1.setText("Connect to server");
 
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel3.setText("IP Address");
 
+        jtxtIP.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jtxtIP.setText("127.0.0.1");
         jtxtIP.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -146,10 +136,18 @@ public class LoginJFrame extends javax.swing.JFrame {
             }
         });
 
+        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel4.setText("Port");
 
+        jtxtPort.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jtxtPort.setText("0");
+
+        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel5.setText("Username");
 
+        jtxtUsername.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
+        jbtnConnectServer.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jbtnConnectServer.setText("Connect");
         jbtnConnectServer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -173,10 +171,6 @@ public class LoginJFrame extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(396, 396, 396)
-                .addComponent(jLabel1)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(19, 19, 19)
@@ -186,8 +180,7 @@ public class LoginJFrame extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(250, 250, 250)
-                                .addComponent(jbtnConnectServer, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 248, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jbtnConnectServer, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -203,7 +196,10 @@ public class LoginJFrame extends javax.swing.JFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(jtxtIP, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGap(63, 63, 63)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(298, 298, 298)
+                        .addComponent(jLabel1)))
                 .addContainerGap(126, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -211,9 +207,9 @@ public class LoginJFrame extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(21, 21, 21)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31)
+                .addGap(25, 25, 25)
                 .addComponent(jLabel1)
-                .addGap(40, 40, 40)
+                .addGap(46, 46, 46)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -273,17 +269,15 @@ public class LoginJFrame extends javax.swing.JFrame {
                     int portPeer = 10000 + rd.nextInt() % 1000;
                     InetAddress ipServer = InetAddress.getByName(IP);
                     int portServer = Integer.parseInt(jtxtPort.getText());
-                    Socket socketClient = new Socket(ipServer, portServer);
-
-                    String msg = Encode.getCreateAccount(userName, Integer.toString(portPeer));
-                    ObjectOutputStream oos = new ObjectOutputStream(socketClient.getOutputStream());
-                    oos.writeObject(msg);
-                    oos.flush();
-
-                    ObjectInputStream ois = new ObjectInputStream(socketClient.getInputStream());
-                    msg = (String) ois.readObject();
-
-                    socketClient.close();
+                    String msg;
+                    try (Socket socketClient = new Socket(ipServer, portServer)) {
+                        msg = Encode.getCreateAccount(userName, Integer.toString(portPeer));
+                        ObjectOutputStream oos = new ObjectOutputStream(socketClient.getOutputStream());
+                        oos.writeObject(msg);
+                        oos.flush();
+                        ObjectInputStream ois = new ObjectInputStream(socketClient.getInputStream());
+                        msg = (String) ois.readObject();
+                    }
                     if (msg.equals(Tags.SESSION_DENY_TAG)) {
                         JOptionPane.showMessageDialog(this, NAME_EXSIST, "Login Error", JOptionPane.ERROR_MESSAGE);
                         return;
@@ -292,9 +286,9 @@ public class LoginJFrame extends javax.swing.JFrame {
 
                     new MainJFrame(IP, portPeer, userName, msg, portServer);
                     this.dispose();
-                } catch (Exception ex) {
+                } catch (HeadlessException | IOException | ClassNotFoundException | NumberFormatException ex) {
                     JOptionPane.showMessageDialog(this, SERVER_NOT_START, "Login Error", JOptionPane.ERROR_MESSAGE);
-                    ex.printStackTrace();
+                    System.err.println(ex);
                 }
         } else {
                 JOptionPane.showMessageDialog(this, NAME_FAILED, "Login Error", JOptionPane.ERROR_MESSAGE);
@@ -302,11 +296,8 @@ public class LoginJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jbtnConnectServerActionPerformed
 
     public static void main(String[] args) {
-	java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new LoginJFrame().setVisible(true);
-
-            }
+	java.awt.EventQueue.invokeLater(() -> {
+            new LoginJFrame().setVisible(true);
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables

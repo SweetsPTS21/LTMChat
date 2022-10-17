@@ -141,6 +141,7 @@ public class ChatJFrame extends javax.swing.JFrame {
             }
         });
 
+        btnSend.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btnSend.setText("Send");
         btnSend.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -153,6 +154,7 @@ public class ChatJFrame extends javax.swing.JFrame {
         txtDisplayMessage.setText("<div class='clear' style='background-color:white'></div>");
         jScrollPane1.setViewportView(txtDisplayMessage);
 
+        btnSendFile.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btnSendFile.setText("File");
         btnSendFile.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -166,10 +168,13 @@ public class ChatJFrame extends javax.swing.JFrame {
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/profile.png"))); // NOI18N
         jLabel1.setText("Avatar");
 
+        lblGuestName.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lblGuestName.setText("Name");
 
+        jButton3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jButton3.setText("Video");
 
+        jButton4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jButton4.setText("Voice");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -227,7 +232,7 @@ public class ChatJFrame extends javax.swing.JFrame {
                     .addComponent(txtMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnSendFile, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnSend, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(37, Short.MAX_VALUE))
+                .addContainerGap(35, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
