@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package server;
+package view;
 
 /**
  *
@@ -13,7 +13,8 @@ import java.awt.Color;
 import java.net.Inet4Address;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
-import data.Peer;
+import controller.Peer;
+import controller.ServerCore;
 
 public class ServerJFrame extends javax.swing.JFrame {
     

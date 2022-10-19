@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package client;
+package view;
 
+import model.Client;
 import java.awt.HeadlessException;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
@@ -19,7 +20,7 @@ import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import tags.Tags;
+import controller.Tags;
 
 /**
  *

@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package login;
+package view;
 
-import client.MainJFrame;
+import view.MainJFrame;
 import java.awt.HeadlessException;
 import java.awt.event.KeyEvent;
 import java.io.File;
@@ -24,8 +24,8 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
-import tags.Encode;
-import tags.Tags;
+import controller.Encode;
+import controller.Tags;
 
 /**
  *
@@ -35,9 +35,9 @@ public final class LoginJFrame extends javax.swing.JFrame {
     /**
      * Creates new form LoginJFrame
      */
-    private static String NAME_FAILED = "TÊN BAO GỒM KÝ TỰ KHÔNG HỢP LỆ, VUI LÒNG THỬ LẠI" + "\nHint: Tên chỉ bao gồm các chữ cái và số";
-        private static String NAME_EXSIST = "TÊN ĐÃ ĐƯỢC SỬ DỤNG";
-    private static String SERVER_NOT_START = "MÁY CHỦ CHƯA KHỞI ĐỘNG HOẶC KHÔNG TỒN TẠI";
+    private static final String NAME_FAILED = "TÊN BAO GỒM KÝ TỰ KHÔNG HỢP LỆ, VUI LÒNG THỬ LẠI" + "\nHint: Tên chỉ bao gồm các chữ cái và số";
+    private static final String NAME_EXSIST = "TÊN ĐÃ ĐƯỢC SỬ DỤNG";
+    private static final String SERVER_NOT_START = "MÁY CHỦ CHƯA KHỞI ĐỘNG HOẶC KHÔNG TỒN TẠI";
     
     private Pattern checkName = Pattern.compile("[_a-zA-Z][_a-zA-Z0-9]*");
     int port;

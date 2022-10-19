@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templateswwwwwwwwwwwwwwwwwwwwwwwwwwww
  * and open the template in the editor.
  */
-package client;
+package view;
 
 /**
  *
@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLEditorKit;
 
-import data.DataFile;
+import controller.DataFile;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.nio.file.Files;
@@ -34,9 +34,9 @@ import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JTextPane;
 import javax.swing.text.BadLocationException;
-import tags.Decode;
-import tags.Encode;
-import tags.Tags;
+import controller.Decode;
+import controller.Encode;
+import controller.Tags;
 
 public class ChatJFrame extends javax.swing.JFrame {
     // Socket

@@ -1,14 +1,11 @@
-package server;
+package controller;
 
+import view.ServerJFrame;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-
-import data.Peer;
-import tags.Decode;
-import tags.Tags;
 
 public class ServerCore {
 
@@ -20,7 +17,7 @@ public class ServerCore {
 	public boolean isStop = false, isExit = false;
 	private static int portServer;
 
-	ArrayList<Peer> getListUser() {
+	public ArrayList<Peer> getListUser() {
 		return dataPeer;
 	}
 

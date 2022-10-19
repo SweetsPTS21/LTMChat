@@ -1,5 +1,7 @@
-package client;
+package model;
 
+import view.ChatJFrame;
+import view.MainJFrame;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -9,10 +11,10 @@ import java.net.Socket;
 import java.net.SocketAddress;
 import java.util.ArrayList;
 
-import data.Peer;
-import tags.Decode;
-import tags.Encode;
-import tags.Tags;
+import controller.Peer;
+import controller.Decode;
+import controller.Encode;
+import controller.Tags;
 
 public class Client {
 

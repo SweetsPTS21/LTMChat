@@ -1,13 +1,16 @@
-package client;
+package model;
 
+import model.Client;
+import view.ChatJFrame;
+import view.MainJFrame;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import tags.Decode;
-import tags.Tags;
+import controller.Decode;
+import controller.Tags;
 
 public class ClientServer {
 
