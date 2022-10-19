@@ -7,6 +7,7 @@ package login;
 
 import client.MainJFrame;
 import java.awt.HeadlessException;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -22,7 +23,6 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 import javax.swing.DefaultListModel;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
 import tags.Encode;
 import tags.Tags;
@@ -146,6 +146,11 @@ public final class LoginJFrame extends javax.swing.JFrame {
         jLabel5.setText("Username");
 
         jtxtUsername.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jtxtUsername.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jtxtUsernameKeyPressed(evt);
+            }
+        });
 
         jbtnConnectServer.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jbtnConnectServer.setText("Connect");
@@ -244,7 +249,7 @@ public final class LoginJFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jtxtIPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtIPActionPerformed
-        // TODO add your handling code here:
+        // TODO add your handling code here:      
     }//GEN-LAST:event_jtxtIPActionPerformed
 
     private void jListSavedServerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jListSavedServerMouseClicked
@@ -294,6 +299,13 @@ public final class LoginJFrame extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, NAME_FAILED, "Login Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jbtnConnectServerActionPerformed
+
+    private void jtxtUsernameKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtxtUsernameKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            jbtnConnectServer.doClick();
+	}
+    }//GEN-LAST:event_jtxtUsernameKeyPressed
 
     public static void main(String[] args) {
 	java.awt.EventQueue.invokeLater(() -> {
